@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-const { PrismaClient } = require("@prisma/client");
+import express from "express";
+import cors from "cors";
+import { PrismaClient } from "@prisma/client";
 
-const campeonatoRoutes = require("./routes/campeonatoRoutes");
+import router from "./routes/routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 
-app.use("/campeonato", campeonatoRoutes);
+app.use("/", router);
 
 // Testando a conexão com o banco
 prisma.$connect()

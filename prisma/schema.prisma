@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -14,33 +15,30 @@ datasource db {
 }
 
 model Time {
-  id           Int      @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   nome         String
-  pontuacao    Int      @default(0)
-  dataInscricao DateTime @default(now())
-  campeonatos  Campeonato[]
-  jogosCasa Jogo[]   @relation("Casa")
-  jogosVisitante Jogo[]  @relation("Visitante")
+  pontuacao    Int          @default(0)
+  dataInscricao DateTime    @default(now())
+  campeonatoId Int?
+  campeonato   Campeonato?  @relation(fields: [campeonatoId], references: [id], name: "Inscricao")
+  campeonatosVencidos Campeonato[] @relation("Vencedor")
+
+  @@unique([nome, campeonatoId])
 }
 
 model Campeonato {
-  id           Int      @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   nome         String
-  dataInicio   DateTime @default(now())
+  dataInicio   DateTime     @default(now())
   vencedorId   Int?
-  vencedor     Time?    @relation(fields: [vencedorId], references: [id])
-  jogos        Jogo[]
+  vencedor     Time?        @relation("Vencedor", fields: [vencedorId], references: [id])
+  jogos        Jogo[]       @relation
+  times        Time[]       @relation("Inscricao")
 }
 
 model Jogo {
-  id             Int       @id @default(autoincrement())
-  campeonato     Campeonato @relation(fields: [campeonatoId], references: [id])
-  campeonatoId   Int
-  timeCasa   Time      @relation("Casa", fields: [timeCasaId], references: [id])
-  timeCasaId Int
-  timeVisitante  Time      @relation("Visitante", fields: [timeVisitanteId], references: [id])
-  timeVisitanteId Int
-  golsMandante   Int
-  golsVisitante  Int
-  dataJogo       DateTime  @default(now())
+  id               Int       @id @default(autoincrement())
+  campeonato       Campeonato @relation(fields: [campeonatoId], references: [id])
+  campeonatoId     Int
+  partidas         Json
 }

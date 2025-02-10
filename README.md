@@ -39,3 +39,11 @@ Rodar comandos docker-compose para subir a aplicação:
   docker-compose up
 ```
 
+
+## Documentação da API
+
+#### Retorna o Swagger com a Documentação completa
+
+```http
+  GET http://localhost:3000/api-docs
+

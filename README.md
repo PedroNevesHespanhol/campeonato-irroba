@@ -26,17 +26,16 @@ Clone o projeto
   git clone https://github.com/PedroNevesHespanhol/campeonato-irroba.git
 ```
 
-Na raiz do projeto:
-
-Instale as dependências
+Entrar na pasta do projeto:
 
 ```bash
-  npm install
+  cd campeonato-irroba
 ```
 
-Inicie o servidor backend
+Rodar comandos docker-compose para subir a aplicação:
 
 ```bash
-  npm run dev
+  docker-compose build
+  docker-compose up
 ```
 

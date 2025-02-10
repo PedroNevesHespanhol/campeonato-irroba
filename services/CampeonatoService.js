@@ -34,7 +34,8 @@ class CampeonatoService {
   }
 
   async simularPartida(timeCasa, timeVisitante) {
-    const { stdout, stderr } = await execPromise(`python c:\\Projetos\\campeonato-irroba\\teste.py`);
+    const scriptPath = process.platform === 'win32' ? 'c:\\Projetos\\campeonato-irroba\\teste.py' : '/app/teste.py';
+    const { stdout, stderr } = await execPromise(`python ${scriptPath}`);
     if (stderr) throw new Error(`Erro ao simular partida: ${stderr}`);
 
     const resultado = stdout.trim().split('\n').map(Number);

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"  # Mapeando a porta 3000 do container para a máquina host
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234@db:5432/postgres?schema=campeonato  # Conexão com o banco de dados
+    depends_on:
+      - db  # A aplicação depende do banco de dados estar rodando
+
+  db:
+    image: postgres  # Imagem do PostgreSQL
+    environment:
+      POSTGRES_USER: postgres  # Usuário do banco
+      POSTGRES_PASSWORD: 1234  # Senha do banco
+      POSTGRES_DB: postgres  # Nome do banco de dados
+    ports:
+      - "5432:5432"  # Expondo a porta 5432 do PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistência dos dados do banco
+
+volumes:
+  postgres_data:  # Volume para persistir os dados do banco
